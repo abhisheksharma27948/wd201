@@ -1,23 +1,28 @@
 const express = require('express');
-const path = require('path');
 const app = express();
+const port = process.argv[2] || 3000; // accept port number as command line argument
 
-// Accept a port number from command line arguments or use 3000 as default
-const port = process.argv[2] || 3000;
-
-app.use(express.static(path.join(__dirname)));
-
-// Serve the project.html file at the root URL
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'project.html'));
-});
-
-// Serve the registration.html file at the /registration URL
+// serve registration page
 app.get('/registration', (req, res) => {
-    res.sendFile(path.join(__dirname, 'registration.html'));
+    res.sendFile(__dirname + '/registration.html');
 });
 
-// Start the server
+// handle registration form submission
+app.post('/register', (req, res) => {
+    // handle registration form data here
+});
+
+// serve home page
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/home.html');
+});
+
+// serve project page
+app.get('/projects', (req, res) => {
+    res.sendFile(__dirname + '/project.html');
+});
+
+// start server
 app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
+    console.log(`Server listening at http://localhost:${port}`);
 });
