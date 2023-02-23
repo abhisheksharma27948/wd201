@@ -1,37 +1,25 @@
+const express = require('express');
+const path = require('path');
+const app = express();
+const port = process.argv[process.argv.indexOf('--port') + 1] || 3000;
 
-const http = require("http");
-const fs = require("fs");
-
-let homeContent = "";
-let projectContent = "";
-
-fs.readFile("home.html", (err, home) => {
-    if (err) {
-        throw err;
-    }
-    homeContent = home;
+// Define routes
+app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, 'home.html'));
 });
 
-fs.readFile("registration.html", (err, project) => {
-    if (err) {
-        throw err;
-    }
-    projectContent = project;
+app.get('/project', function (req, res) {
+    res.sendFile(path.join(__dirname, 'project.html'));
 });
 
-http
-    .createServer((request, response) => {
-        let url = request.url;
-        response.writeHeader(200, { "Content-Type": "text/html" });
-        switch (url) {
-            case "/project":
-                response.write(projectContent);
-                response.end();
-                break;
-            default:
-                response.write(homeContent);
-                response.end();
-                break;
-        }
-    })
-    .listen(3000);
+app.get('/registration', function (req, res) {
+    res.sendFile(path.join(__dirname, 'registration.html'));
+});
+
+// Serve static files
+app.use(express.static(path.join(__dirname)));
+
+// Start the server
+app.listen(port, function () {
+    console.log(`Server started on port ${port}`);
+});
