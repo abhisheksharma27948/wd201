@@ -1,28 +1,22 @@
 const express = require('express');
 const app = express();
-const port = process.argv[2] || 3000; // accept port number as command line argument
+const port = process.argv[3] || 3000;
+const args = require('vscode-minimist')(process.argv.slice(2));
 
-// serve registration page
-app.get('/registration', (req, res) => {
-    res.sendFile(__dirname + '/registration.html');
-});
+app.use(express.static(__dirname));
 
-// handle registration form submission
-app.post('/register', (req, res) => {
-    // handle registration form data here
-});
-
-// serve home page
-app.get('/', (req, res) => {
+app.get('/', function (req, res) {
     res.sendFile(__dirname + '/home.html');
 });
 
-// serve project page
-app.get('/projects', (req, res) => {
+app.get('/project', function (req, res) {
     res.sendFile(__dirname + '/project.html');
 });
 
-// start server
-app.listen(port, () => {
-    console.log(`Server listening at http://localhost:${port}`);
+app.get('/registration', function (req, res) {
+    res.sendFile(__dirname + '/registration.html');
+});
+
+app.listen(port, function () {
+    console.log(`Server running on port ${port}`);
 });
