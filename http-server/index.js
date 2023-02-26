@@ -1,22 +1,49 @@
-const express = require('express');
-const app = express();
-const port = process.argv[3] || 3000;
-const args = require('vscode-minimist')(process.argv.slice(2));
+const http = require("http");
+const fs = require("fs");
+const args = require('minimist')(process.argv.slice(2));
 
-app.use(express.static(__dirname));
+let homeContent = "";
+let projectContent = "";
+let registrationContent = "";
 
-app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/home.html');
+fs.readFile("./home.html", (err, home) => {
+    if (err) {
+        throw err;
+    }
+    homeContent = home;
 });
 
-app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/project.html');
+fs.readFile("./project.html", (err, project) => {
+    if (err) {
+        throw err;
+    }
+    projectContent = project;
+});
+fs.readFile("./registration.html", (err, registration) => {
+    if (err) {
+        throw err;
+    }
+    registrationContent = registration;
 });
 
-app.get('/', function (req, res) {
-    res.sendFile(__dirname + '/registration.html');
+http.createServer((request, response) => {
+    let url = request.url;
+    response.writeHeader(200, { "Content-Type": "text/html" });
+    switch (url) {
+        case "/project":
+            response.write(projectContent);
+            response.end();
+            break;
+        case "/registration":
+            response.write(registrationContent);
+            response.end();
+            break;
+        default:
+            response.write(homeContent);
+            response.end();
+            break;
+    }
+}).listen(args.port, () => {
+    console.log(`Server running on port ${args.port}`);
 });
 
-app.listen(port, function () {
-    console.log(`Server running on port ${port}`);
-});
