@@ -14,7 +14,6 @@ const todoList = () => {
         );
         return overdueItems;
     };
-
     const dueToday = () => {
         const today = new Date();
         const todayItems = all.filter(
@@ -23,7 +22,6 @@ const todoList = () => {
         );
         return todayItems;
     };
-
     const dueLater = () => {
         const today = new Date();
         const laterItems = all.filter(
@@ -32,7 +30,6 @@ const todoList = () => {
         );
         return laterItems;
     };
-
     const toDisplayableList = (list) => {
         return list
             .map(
