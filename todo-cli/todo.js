@@ -18,7 +18,7 @@ const todoList = () => {
         const today = new Date();
         const todayItems = all.filter(
             (item) =>
-                !item.completed && new Date(item.dueDate) <= new Date(today.toISOString().split("T")[0])
+                !item.completed && new Date(item.dueDate).toISOString().split("T")[0] === today.toISOString().split("T")[0]
         );
         return todayItems;
     };
