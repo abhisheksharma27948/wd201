@@ -8,17 +8,17 @@ const todoList = () => {
     }
     const overdue = () => {
         const today = new Date();
-        return all.filter((item) => new Date(item.dueDate) < today);
+        return all.filter((item) => !item.overdue && new Date(item.dueDate) < today);
     };
 
     const dueToday = () => {
         const today = new Date();
-        return all.filter((item) => new Date(item.dueDate).getTime() === today.getTime());
+        return all.filter((item) => !item.dueToday && new Date(item.dueDate).getTime() === today.getTime());
     };
 
     const dueLater = () => {
         const today = new Date();
-        return all.filter((item) => new Date(item.dueDate) > today);
+        return all.filter((item) => !item.dueLater && new Date(item.dueDate) > today);
     };
     const toDisplayableList = (list) => {
         return list
