@@ -23,16 +23,16 @@ const todoList = () => {
     };
 
     const toDisplayableList = (list) => {
-        let outputString = "";
-        list.forEach((item, index) => {
-            outputString += `[${item.completed ? "x" : " "}] ${item.title}`;
-            outputString += ` (${item.dueDate.toISOString().split("T")[0]})`;
-            if (index !== list.length - 1) {
-                outputString += "\n";
-            }
-        });
-        return outputString;
-    };
+        let output = "";
+        for (let i = 0; i < list.length; i++) {
+            const todoItem = list[i];
+            const status = todoItem.completed ? "[x]" : "[ ]";
+            const title = todoItem.title;
+            const dueDate = todoItem.dueDate ? `${todoItem.dueDate}` : "";
+            output += `${status} ${title} ${dueDate}\n`;
+        }
+        return output;
+    }
     
     return {
         all,
