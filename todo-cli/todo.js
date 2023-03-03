@@ -6,28 +6,42 @@ const todoList = () => {
     const markAsComplete = (index) => {
         all[index].completed = true
     }
-      const overdue = () => {
-        const today = new Date();
-        return all.filter((item) => item.dueDate && new Date(item.dueDate) <= today);
-    };
+    
+  const overdue = () => {
+    const now = new Date();
+    return all.filter((item) => new Date(item.dueDate) < now && !item.completed);
+  };
 
-    const dueToday = () => {
-        const today = new Date();
-        return all.filter((item) => item.dueDate && new Date(item.dueDate).getTime() === today.getTime());
-    };
+  const dueToday = () => {
+    const today = new Date().toISOString().slice(0, 10);
+    return all.filter((item) => item.dueDate === today && !item.completed);
+  };
 
-    const dueLater = () => {
-        const today = new Date();
-        return all.filter((item) => item.dueDate && new Date(item.dueDate) > today);
-    };
-    const toDisplayableList = (list) => {
-    return list
-        .map(
-            (item, index) =>
-                `[${item.completed ? "x" : " "}] ${item.title} - ${item.dueDate ? item.dueDate.toISOString().split("T")[0] : " "}`
-        )
-        .join("\n");
-};
+  const dueLater = () => {
+    const now = new Date();
+    return all.filter((item) => new Date(item.dueDate) > now && !item.completed);
+  };
+
+  const toDisplayableList = (list) => {
+    let output = "";
+    if (list.length === 0) {
+      output += "No tasks found\n";
+    } else {
+      list.forEach((item, index) => {
+        const itemString =
+          "[" +
+          (item.completed ? "x" : " ") +
+          "] " +
+          item.title +
+          (item.dueDate === new Date().toISOString().slice(0, 10)
+            ? ""
+            : " " + item.dueDate) +
+          "\n";
+        output += itemString;
+      });
+    }
+    return output;
+  };
 
     return {
         all,
