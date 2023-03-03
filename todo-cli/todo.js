@@ -15,11 +15,14 @@ const todoList = () => {
     }
     
     const dueToday = () => {
-        const today = new Date();
-        return all.filter(todoItem => {
-            const dueDate = new Date(todoItem.dueDate);
-            return !todoItem.completed && dueDate.toDateString() === today.toDateString();
+        let todayDued = [];
+        const dued = all.filter(item => {
+            if (item.completed === false && item.dueDate === today) {
+                todayDued.push(item);
+            }
+            return item;
         });
+        return todayDued;
     }
 
     const dueLater = () => {
