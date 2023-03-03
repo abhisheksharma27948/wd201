@@ -8,13 +8,12 @@ const todoList = () => {
     }
     
     const overdue = () => {
-        const today = new Date();
-        return all.filter(todoItem => {
-            const dueDate = new Date(todoItem.dueDate);
-            return !todoItem.completed && dueDate < today;
+        const overdues = all.filter((item) => {
+        return !item.completed && new Date(item.dueDate) < new Date(today);
         });
+        return overdues;
     }
-
+    
     const dueToday = () => {
         const today = new Date();
         return all.filter(todoItem => {
