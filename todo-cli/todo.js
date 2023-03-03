@@ -8,22 +8,39 @@ const todoList = () => {
     }
     
     const overdue = () => {
-        const now = new Date();
-        return all.filter(item => !item.completed && new Date(item.dueDate) < now);
+        const today = new Date();
+        return all.filter(todoItem => {
+            const dueDate = new Date(todoItem.dueDate);
+            return !todoItem.completed && dueDate < today;
+        });
     }
 
     const dueToday = () => {
-        const now = new Date();
-        return all.filter(item => !item.completed && new Date(item.dueDate).toLocaleDateString() === now.toLocaleDateString());
+        const today = new Date();
+        return all.filter(todoItem => {
+            const dueDate = new Date(todoItem.dueDate);
+            return !todoItem.completed && dueDate.toDateString() === today.toDateString();
+        });
     }
 
     const dueLater = () => {
-        const now = new Date();
-        return all.filter(item => !item.completed && new Date(item.dueDate) > now && new Date(item.dueDate).toLocaleDateString() !== now.toLocaleDateString());
+        const today = new Date();
+        return all.filter(todoItem => {
+            const dueDate = new Date(todoItem.dueDate);
+            return !todoItem.completed && dueDate > today;
+        });
     }
 
     const toDisplayableList = (list) => {
-        return list.map(item => `[${item.completed ? "x" : " "}] ${item.title} - ${item.dueDate}`).join("\n");
+        let output = "";
+        for (let i = 0; i < list.length; i++) {
+            const todoItem = list[i];
+            const status = todoItem.completed ? "[x]" : "[ ]";
+            const title = todoItem.title;
+            const dueDate = todoItem.dueDate ? `(${todoItem.dueDate})` : "";
+            output += `${status} ${title} ${dueDate}\n`;
+        }
+        return output;
     }
     
     return {
