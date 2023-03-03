@@ -8,42 +8,31 @@ const todoList = () => {
     }
     
     const overdue = () => {
-        const overdues = all.filter((item) => {
-        return !item.completed && new Date(item.dueDate) < new Date(today);
-        });
-        return overdues;
-    }
-    
+        const overdueItems = all.filter((item) => item.dueDate < new Date());
+        return overdueItems;
+    };
+
     const dueToday = () => {
-        let todayDued = [];
-        const dued = all.filter(item => {
-            if (item.completed === false && item.dueDate === today) {
-                todayDued.push(item);
-            }
-            return item;
-        });
-        return todayDued;
-    }
+        const dueTodayItems = all.filter((item) => item.dueDate.toISOString().split("T")[0] === new Date().toISOString().split("T")[0]);
+        return dueTodayItems;
+    };
 
     const dueLater = () => {
-        const today = new Date();
-        return all.filter(todoItem => {
-            const dueDate = new Date(todoItem.dueDate);
-            return !todoItem.completed && dueDate > today;
-        });
-    }
+        const dueLaterItems = all.filter((item) => item.dueDate > new Date());
+        return dueLaterItems;
+    };
 
     const toDisplayableList = (list) => {
-        let output = "";
-        for (let i = 0; i < list.length; i++) {
-            const todoItem = list[i];
-            const status = todoItem.completed ? "[x]" : "[ ]";
-            const title = todoItem.title;
-            const dueDate = todoItem.dueDate ? `${todoItem.dueDate}` : "";
-            output += `${status} ${title} ${dueDate}\n`;
-        }
-        return output;
-    }
+        let outputString = "";
+        list.forEach((item, index) => {
+            outputString += `[${item.completed ? "x" : " "}] ${item.title}`;
+            outputString += ` (${item.dueDate.toISOString().split("T")[0]})`;
+            if (index !== list.length - 1) {
+                outputString += "\n";
+            }
+        });
+        return outputString;
+    };
     
     return {
         all,
