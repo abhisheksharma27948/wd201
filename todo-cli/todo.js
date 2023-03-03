@@ -21,13 +21,14 @@ const todoList = () => {
         return all.filter((item) => item.dueDate && new Date(item.dueDate) > today);
     };
     const toDisplayableList = (list) => {
-        return list
-            .map(
-                (item, index) =>
-                    `[${item.completed ? "x" : " "}] ${item.title} - ${item.dueDate.toISOString().split("T")[0]}`
-            )
-            .join("\n");
-    };
+    return list
+        .map(
+            (item, index) =>
+                `[${item.completed ? "x" : " "}] ${item.title} - ${item.dueDate ? item.dueDate.toISOString().split("T")[0] : " "}`
+        )
+        .join("\n");
+};
+
     return {
         all,
         add,
