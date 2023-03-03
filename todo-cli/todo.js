@@ -6,42 +6,26 @@ const todoList = () => {
     const markAsComplete = (index) => {
         all[index].completed = true
     }
-
+    
     const overdue = () => {
         const now = new Date();
-        return all.filter((item) => new Date(item.dueDate) < now && !item.completed);
-    };
+        return all.filter(item => !item.completed && new Date(item.dueDate) < now);
+    }
 
     const dueToday = () => {
-        const today = new Date().toISOString().slice(0, 10);
-        return all.filter((item) => item.dueDate === today && !item.completed);
-    };
+        const now = new Date();
+        return all.filter(item => !item.completed && new Date(item.dueDate).toLocaleDateString() === now.toLocaleDateString());
+    }
 
     const dueLater = () => {
         const now = new Date();
-        return all.filter((item) => new Date(item.dueDate) > now && !item.completed);
-    };
+        return all.filter(item => !item.completed && new Date(item.dueDate) > now && new Date(item.dueDate).toLocaleDateString() !== now.toLocaleDateString());
+    }
 
     const toDisplayableList = (list) => {
-        let output = "";
-        if (list.length === 0) {
-            output += "No tasks found\n";
-        } else {
-            list.forEach((item, index) => {
-                const itemString =
-                    "[" +
-                    (item.completed ? "x" : " ") +
-                    "] " +
-                    item.title +
-                    (item.dueDate === new Date().toISOString().slice(0, 10)
-                        ? ""
-                        : " " + item.dueDate) +
-                    "\n";
-                output += itemString;
-            });
-        }
-        return output;
-    };
+        return list.map(item => `[${item.completed ? "x" : " "}] ${item.title} - ${item.dueDate}`).join("\n");
+    }
+    
     return {
         all,
         add,
