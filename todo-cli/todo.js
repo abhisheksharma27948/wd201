@@ -13,8 +13,11 @@ const todoList = () => {
     }
 
     const dueToday = () => {
-        const now = new Date()
-        return all.filter((item) => !item.completed && new Date(item.dueDate).toLocaleDateString() === now.toLocaleDateString())
+        const currentDate = new Date()
+        return all.filter((item) => {
+            const dueDate = new Date(item.dueDate)
+            return !item.completed && dueDate.toISOString().split("T")[0] === currentDate.toISOString().split("T")[0]
+        })
     }
 
     const dueLater = () => {
