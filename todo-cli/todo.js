@@ -23,16 +23,20 @@ const todoList = () => {
     }
 
     const toDisplayableList = (list) => {
-        let displayList = ''
+        let output = "";
         for (let i = 0; i < list.length; i++) {
-            const todo = list[i]
-            let checkbox = todo.completed ? 'x' : ' '
-            let dueDate = todo.dueDate === new Date().toISOString().split('T')[0] ? '' : todo.dueDate
-            let title = todo.title
-            displayList += `[${checkbox}] ${title} ${dueDate}\n`
+            const item = list[i];
+            const prefix = item.completed ? "[x]" : "[ ]";
+            const title = item.title;
+            const dueDate = formattedDate(new Date(item.dueDate));
+            if (dueDate === today) {
+                output += `${prefix} ${title}\n`;
+            } else {
+                output += `${prefix} ${title} ${dueDate}\n`;
+            }
         }
-        return displayList
-    }
+        return output;
+    };
     
     return {
         all,
