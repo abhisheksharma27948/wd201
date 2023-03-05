@@ -9,24 +9,23 @@ const todoList = () => {
     
     const overdue = () => {
         const now = new Date()
-        return all.filter(todo => !todo.completed && new Date(todo.dueDate) < now)
+        return all.filter((item) => !item.completed && new Date(item.dueDate) < now)
     }
 
     const dueToday = () => {
         const now = new Date()
-        return all.filter(todo => !todo.completed && new Date(todo.dueDate).toDateString() === now.toDateString())
+        return all.filter((item) => !item.completed && new Date(item.dueDate).toLocaleDateString() === now.toLocaleDateString())
     }
 
     const dueLater = () => {
         const now = new Date()
-        return all.filter(todo => !todo.completed && new Date(todo.dueDate) > now)
+        return all.filter((item) => !item.completed && new Date(item.dueDate) > now)
     }
 
     const toDisplayableList = (list) => {
-        return list.map((todo, index) => {
-            const checkbox = todo.completed ? "[x]" : "[ ]"
-            const formattedDueDate = todo.dueDate ? ` ${todo.dueDate}` : ""
-            return `${checkbox} ${todo.title}${formattedDueDate}`
+        return list.map((item, index) => {
+            const checkbox = item.completed ? "[x]" : "[ ]"
+            return `${checkbox} ${item.title} ${item.dueDate}`
         }).join("\n")
     }
     
