@@ -7,42 +7,31 @@ const todoList = () => {
         all[index].completed = true
     }
     
-    overdue() {
-        const today = new Date().getDate();
-        return this.all.filter((item) => {
-        const dueDate = new Date(item.dueDate);
-        return dueDate.getDate() < today && !item.completed;
-        });
+    const overdue = () => {
+        const now = new Date().toISOString().split('T')[0]
+        return all.filter((todo) => todo.dueDate < now && !todo.completed)
     }
 
-    dueToday() {
-        const today = new Date().getDate();
-        return this.all.filter((item) => {
-        const dueDate = new Date(item.dueDate);
-        return dueDate.getDate() === today && !item.completed;
-        });
+    const dueToday = () => {
+        const now = new Date().toISOString().split('T')[0]
+        return all.filter((todo) => todo.dueDate === now && !todo.completed)
     }
 
-    dueLater() {
-        const today = new Date().getDate();
-        return this.all.filter((item) => {
-        const dueDate = new Date(item.dueDate);
-        return dueDate.getDate() > today && !item.completed;
-        });
+    const dueLater = () => {
+        const now = new Date().toISOString().split('T')[0]
+        return all.filter((todo) => todo.dueDate > now && !todo.completed)
     }
 
-    toDisplayableList(list) {
-        return list
-        .map((item) => {
-        const checkBox = item.completed ? "[x]" : "[ ]";
-        const displayDate = new Date(item.dueDate).toLocaleDateString("en-US", {
-          month: "short",
-          day: "numeric",
-        });
-        return `${checkBox} ${item.title} (${displayDate})`;
-      })
-      .join("\n");
-    }
+    const toDisplayableList = (list) => {
+        let displayList = ''
+        for (let i = 0; i < list.length; i++) {
+            const todo = list[i]
+            let checkbox = todo.completed ? 'x' : ' '
+            let dueDate = todo.dueDate === new Date().toISOString().split('T')[0] ? '' : todo.dueDate
+            let title = todo.title
+            displayList += `[${checkbox}] ${title} ${dueDate}\n`
+        }
+        return displayList
     }
     
     return {
