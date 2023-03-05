@@ -13,9 +13,8 @@ const todoList = () => {
     }
 
     const dueToday = () => {
-        return all.filter((item) => {
-            return item.duedate === today
-        })
+        const now = new Date().toISOString().split('T')[0]
+        return all.filter((todo) => todo.dueDate === now && !todo.completed)
     }
 
     const dueLater = () => {
@@ -32,17 +31,15 @@ const todoList = () => {
                 } else {
                     ml.push(`[ ] ${item.title}`)
                 }
+            } else {
+                if (item.completed === true) {
+                    ml.push(`[x] ${item.title} ${item.dueDate}`)
+                } else {
+                    ml.push(`[ ] ${item.title} ${item.dueDate}`)
+                }
             }
-        });
-        let displayList = ''
-        for (let i = 0; i < list.length; i++) {
-            const todo = list[i]
-            let checkbox = todo.completed ? 'x' : ' '
-            let dueDate = todo.dueDate === new Date().toISOString().split('T')[0] ? '' : todo.dueDate
-            let title = todo.title
-            displayList += `[${checkbox}] ${title} ${dueDate}\n`
-        }
-        return displayList
+        })
+        return ml.join("\n")
     }
 
     return {
