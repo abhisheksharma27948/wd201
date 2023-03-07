@@ -13,8 +13,9 @@ const todoList = () => {
     }
 
     const dueToday = () => {
-        const now = new Date().toISOString().split('T')[0]
-        return all.filter((todo) => todo.dueDate === now && !todo.completed)
+        return all.filter((todo) => (
+            todo.dueDate < today
+        ))
     }
 
     const dueLater = () => {
