@@ -14,7 +14,7 @@ const todoList = () => {
 
     const dueToday = () => {
         return all.filter((todo) => (
-            todo.dueDate < today
+            todo.dueDate === today
         ))
     }
 
